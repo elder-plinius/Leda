@@ -2,8 +2,6 @@ import os
 from datetime import datetime
 from dotenv import load_dotenv
 import google.generativeai as genai
-
-# Importing prompts from prompts.py
 import prompts
 
 # Load environment variables
@@ -25,10 +23,14 @@ def gemini_pro_completion(prompt):
         return None
 
 def generate_system_script_content(user_idea):
-    # Using imported prompts to generate the system script
-    role_identification = gemini_pro_completion(prompts.AGENT_ROLE_IDENTIFICATION_AGENT_PROMPT.format(user_idea=user_idea))
-    agent_configuration = gemini_pro_completion(prompts.AGENT_CONFIGURATION_AGENT_PROMPT.format(agent_roles=role_identification))
-    system_assembly = gemini_pro_completion(prompts.SYSTEM_ASSEMBLY_AGENT_PROMPT.format(agent_sops=agent_configuration))
+    role_identification_prompt = prompts.AGENT_ROLE_IDENTIFICATION_AGENT_PROMPT.format(user_idea=user_idea)
+    role_identification = gemini_pro_completion(role_identification_prompt)
+
+    agent_configuration_prompt = prompts.AGENT_CONFIGURATION_AGENT_PROMPT.format(agent_roles=role_identification)
+    agent_configuration = gemini_pro_completion(agent_configuration_prompt)
+
+    system_assembly_prompt = prompts.SYSTEM_ASSEMBLY_AGENT_PROMPT.format(agent_sops=agent_configuration)
+    system_assembly = gemini_pro_completion(system_assembly_prompt)
 
     return f"# System Script for {user_idea}\n\n{system_assembly}"
 
