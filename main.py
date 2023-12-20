@@ -1,9 +1,7 @@
 import os
-import google.generativeai as genai
+from datetime import datetime
 from dotenv import load_dotenv
-
-# Import the prompts from prompts.py (Assuming this file contains structured prompts for each operation)
-import prompts
+import google.generativeai as genai
 
 # Load environment variables
 load_dotenv()
@@ -15,7 +13,7 @@ genai.configure(api_key=google_api_key)
 # Initialize the Gemini-Pro model
 model = genai.GenerativeModel('gemini-pro')
 
-def generate_response_with_gemini(prompt):
+def gemini_pro_completion(prompt):
     try:
         response = model.generate_content(prompt)
         return response.text.strip()
@@ -23,26 +21,34 @@ def generate_response_with_gemini(prompt):
         print(f"Error in Gemini-Pro completion: {e}")
         return None
 
-def role_identification(user_idea):
-    prompt = prompts.ROLE_IDENTIFICATION_PROMPT.format(user_idea=user_idea)
-    return generate_response_with_gemini(prompt)
+def process_user_idea_for_prompts(user_idea):
+    # Placeholder: Replace with actual logic to generate prompts content based on user idea
+    prompts_content = f"# Generated Prompts for {user_idea}\n\n"
+    return prompts_content
 
-def configure_agents(agent_roles):
-    prompt = prompts.AGENT_CONFIGURATION_PROMPT.format(agent_roles=agent_roles)
-    return generate_response_with_gemini(prompt)
+def process_user_idea_for_system_script(user_idea):
+    # Placeholder: Replace with actual logic to generate system script content based on user idea
+    system_script = f"# System Script for {user_idea}\n\n"
+    return system_script
 
-def assemble_system(agent_instructions):
-    prompt = prompts.SYSTEM_ASSEMBLY_PROMPT.format(agent_instructions=agent_instructions)
-    return generate_response_with_gemini(prompt)
+def save_to_file(filename, content):
+    with open(filename, 'w') as file:
+        file.write(content)
+    print(f"File saved: {filename}")
+
+def get_timestamp():
+    return datetime.now().strftime("%Y%m%d_%H%M%S")
 
 def main():
     user_idea = input("Enter your idea for the multi-agent system: ")
-    agent_roles = role_identification(user_idea)
-    agent_instructions = configure_agents(agent_roles)
-    system_script = assemble_system(agent_instructions)
+    timestamp = get_timestamp()
 
-    # Print the system script or further process as needed
-    print(system_script)
+    formatted_prompts = process_user_idea_for_prompts(user_idea)
+    system_script = process_user_idea_for_system_script(user_idea)
+
+    # Save the generated content to timestamped files
+    save_to_file(f'prompts_{timestamp}.py', formatted_prompts)
+    save_to_file(f'system_script_{timestamp}.py', system_script)
 
 if __name__ == "__main__":
     main()
