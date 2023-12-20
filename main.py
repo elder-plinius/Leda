@@ -3,6 +3,9 @@ from datetime import datetime
 from dotenv import load_dotenv
 import google.generativeai as genai
 
+# Importing prompts from prompts.py
+import prompts
+
 # Load environment variables
 load_dotenv()
 google_api_key = os.getenv("GOOGLE_API_KEY")
@@ -21,15 +24,13 @@ def gemini_pro_completion(prompt):
         print(f"Error in Gemini-Pro completion: {e}")
         return None
 
-def process_user_idea_for_prompts(user_idea):
-    # Placeholder: Replace with actual logic to generate prompts content based on user idea
-    prompts_content = f"# Generated Prompts for {user_idea}\n\n"
-    return prompts_content
+def generate_system_script_content(user_idea):
+    # Using imported prompts to generate the system script
+    role_identification = gemini_pro_completion(prompts.AGENT_ROLE_IDENTIFICATION_AGENT_PROMPT.format(user_idea=user_idea))
+    agent_configuration = gemini_pro_completion(prompts.AGENT_CONFIGURATION_AGENT_PROMPT.format(agent_roles=role_identification))
+    system_assembly = gemini_pro_completion(prompts.SYSTEM_ASSEMBLY_AGENT_PROMPT.format(agent_sops=agent_configuration))
 
-def process_user_idea_for_system_script(user_idea):
-    # Placeholder: Replace with actual logic to generate system script content based on user idea
-    system_script = f"# System Script for {user_idea}\n\n"
-    return system_script
+    return f"# System Script for {user_idea}\n\n{system_assembly}"
 
 def save_to_file(filename, content):
     with open(filename, 'w') as file:
@@ -43,12 +44,10 @@ def main():
     user_idea = input("Enter your idea for the multi-agent system: ")
     timestamp = get_timestamp()
 
-    formatted_prompts = process_user_idea_for_prompts(user_idea)
-    system_script = process_user_idea_for_system_script(user_idea)
+    system_script_content = generate_system_script_content(user_idea)
 
-    # Save the generated content to timestamped files
-    save_to_file(f'prompts_{timestamp}.py', formatted_prompts)
-    save_to_file(f'system_script_{timestamp}.py', system_script)
+    # Save the generated system script to a timestamped file
+    save_to_file(f'system_script_{timestamp}.py', system_script_content)
 
 if __name__ == "__main__":
     main()
