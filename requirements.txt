@@ -1,0 +1,15 @@
+google-generativeai
+
+python-dotenv
+
+openai
+
+trulens_eval
+
+llama_index
+
+IPython
+
+chromadb
+
+requests
