@@ -1,4 +1,3 @@
-# prompts.py
 # This file contains the system prompts for building and configuring each agent in the multi-agent AI system.
 
 # Prompt for Role Identification Agent
@@ -25,15 +24,13 @@ utilized as input for others and how they collectively achieve the goal of '{use
 
 Outline the following components:
 - Data Exchange: How outputs from one agent are used as inputs for other agents.
-- Positional Arguments: Ensure positional arguments are consistent across agents.
 - Error Handling: Strategies for dealing with unexpected inputs or failures.
 - Execution Flow: Sequence of operations.
+- The final output format (should it print to termnial or be stored in a file).
 
 Output Format: A structured system architecture/tech spec, ready to be sent to a developer to be turned into a Python script.
 
 """
-# Be sure to also include a list of all the agent prompt names and any variables in the agent_prompts and a description of the full workflow (which 
-# agents are dependent on outputs from other agents).
 
 # Prompt for System Assembly
 SYSTEM_ASSEMBLY_PROMPT = """
@@ -42,7 +39,7 @@ multi-agent AI system. Ensure the script dynamically imports the most recent age
 utilizes its contents.
 
 Output Format: A complete, FULLY FUNCTIONAL and PRODUCTION-READY Python script ready for deployment, with NO PLACEHOLDERS, complete logic, correct
-numbers of positional arguments, and comments. REMEMBER: generate_content_with_gemini takes ONE positional argument. Take a deep breath and think step by step.
+numbers of positional arguments. REMEMBER: generate_content_with_gemini takes ONE positional argument. Take a deep breath and think step by step.
 
 Here's an example skeleton structure for you to get a rough idea of what the first part of the python script might look like:
 
