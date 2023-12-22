@@ -18,7 +18,6 @@ Quick Start Guide
 
     Installation:
         Clone the repository and install dependencies.
-        
         Place your Gemini API key in a .env file as GOOGLE_API_KEY=your_api_key_here.
 
     Run Leda:
