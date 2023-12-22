@@ -2,7 +2,7 @@
 
 Overview
 
-Leda is an innovative application built with OpenAI's Gemini AI, designed to autonomously generate and operationalize teams of specialized agents from a single user prompt. It not only crafts detailed system prompts for each agent in the team but also generates the necessary Python script to run the system, streamlining the process from conception to execution.
+Leda is an innovative application built with Google's Gemini AI, designed to autonomously generate and operationalize teams of specialized agents from a single user prompt. It not only crafts detailed system prompts for each agent in the team but also generates the necessary Python script to run the system, streamlining the process from conception to execution.
 
 Key Features
 
@@ -18,6 +18,7 @@ Quick Start Guide
 
     Installation:
         Clone the repository and install dependencies.
+        
         Place your Gemini API key in a .env file as GOOGLE_API_KEY=your_api_key_here.
 
     Run Leda:
